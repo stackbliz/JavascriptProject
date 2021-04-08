@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script lang="ja" type="text/javascript">
+
+      
+        function GetAccouns(user='', sortBy, sortDirection = 'asc') {
+
+            // Validation 
+            if (!(sortDirection == "desc" || sortDirection == "asc")) {
+                return alert("sortDirection value " + "is Invalid");
+            }
+            if (!(sortBy == 'acctNum' || sortBy == 'balance' || sortBy == undefined)) {
+                return alert("sortBy value " + "is Invalid");
+
+            }
+
+            var acctData = [
+                {
+                    "acctNum": "AAA - 1234",
+                    "user": "Alice"
+                },
+                {
+                    "acctNum": "AAA - 5231",
+                    "user": "Bob"
+                },
+                {
+                    "acctNum": "AAA - 9921",
+                    "user": "Alice"
+                },
+                {
+                    "acctNum": "AAA - 8191",
+                    "user": "Alice"
+                }
+            ];
+
+            var balance = {
+                "AAA - 1234": 4593.22,
+                "AAA - 9921": 0,
+                "AAA - 5231": 232142.5,
+                "AAA - 8191": 4344
+            };
+
+            let accounts = [];
+
+            // user optional parameter filter
+            if (user != '') {
+                acctData = acctData.filter(function (el) {
+                    return el.user == user;
+                });
+            }
+
+            for (let i = 0; i < acctData.length; i++) {
+                accounts.push(acctData[i].acctNum);
+            }
+
+            if (sortBy != undefined) {
+                if (sortBy == "acctNum") {
+                    if (sortDirection == 'asc') {
+                        accounts.sort();
+                    }
+                    else {
+                        accounts.reverse();
+                    }
+                }
+                else {
+                    accounts = [];
+                    var sortedBalance = [];
+                    for (let i in balance) {
+                        sortedBalance.push([balance[i], i]);
+                    }
+                    if (sortDirection == 'asc') {
+                        sortedBalance.sort();
+                    }
+                    else {
+                        sortedBalance.reverse();
+                    }
+
+                    sortedBalance.forEach(function (item) {
+                        accounts.push(item[1]);
+                    });
+                }
+
+            }
+
+            //log data -- Testing
+            if (accounts.length > 0) {
+                accounts.forEach(function (item) {
+                    console.log(item);
+                });
+            }
+            else {
+                console.log("Found '0' Accounts");
+            }
+            
+            return accounts;
+        }
+       
+        window.onload = function () {
+            this.GetAccouns('Alice;','balance','asc');
+        };
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
